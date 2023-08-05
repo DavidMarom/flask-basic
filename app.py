@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, request, render_template
+from flask import Flask, request
 
 app = Flask(__name__)
 
@@ -14,9 +14,11 @@ stores = [
     }
 ]
 
+
 @app.get("/store")
 def get_stores():
     return {"stores": stores}
+
 
 @app.post('/store')
 def create_store():
@@ -24,6 +26,7 @@ def create_store():
     new_store = {"name": request_data['name'], "items": []}
     stores.append(new_store)
     return new_store, 201
+
 
 @app.post("/store/<string:name>/item")
 def create_item(name):
@@ -34,4 +37,3 @@ def create_item(name):
             store['items'].append(new_item)
             return new_item, 201
     return {"message": "store not found"}, 404
-
